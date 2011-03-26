@@ -78,29 +78,11 @@ func (c *Command) printCommand() {
     fmt.Fprintf(os.Stdout, "\n")
 }
 
-func printAll() {
-    for _, c := range Commands {
-        c.printCommand()
-    }
-}
-
-func printSingle(name string) bool {
+func printName(name string) bool {
     if c, ok := Commands[name]; ok {
         c.printCommand()
         return ok
     } 
-    return false
-}
-
-func printGroup(name string) bool {
-    g := orderByGroup()
-
-    for k, v := range g {
-        if k == name {
-            printGrouped(map[string][]string{k: v,})
-        }
-    }
-
     return false
 }
 
@@ -118,6 +100,18 @@ func printCommands() {
     }
 
     fmt.Fprintf(os.Stdout, "\n")
+}
+
+func printGroup(name string) bool {
+    g := orderByGroup()
+
+    for k, v := range g {
+        if k == name {
+            printGrouped(map[string][]string{k: v,})
+        }
+    }
+
+    return false
 }
 
 func printGroups() {
@@ -180,7 +174,7 @@ func main() {
 
     if len(args) == 1 {
         typ := strings.ToLower(args[0])
-        if !printSingle(typ) {
+        if !printName(typ) {
             if !printGroup(typ) {
                 os.Exit(1)
             }
