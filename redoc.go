@@ -24,9 +24,10 @@ var (
     since       = flag.Bool("si", false, "display since")
     summary     = flag.Bool("s", true, "display summary")
 
-    // list all available groups/commands
-    listGroups  = flag.Bool("lg", false, "list all available groups")
+    // general
+    colors  = flag.Bool("c", true, "use colors")
     listCommands  = flag.Bool("lc", false, "list all available commands")
+    listGroups  = flag.Bool("lg", false, "list all available groups")
 )
 
 func usage() {
@@ -36,22 +37,42 @@ func usage() {
 }
 
 func (c *Command) printCommand() {
-    fmt.Fprintf(os.Stdout, "  %s %s\n", strings.ToUpper(c.Name), c.Arguments)
+    var formats map[string]string
+
+    if *colors {
+        formats = map[string]string {
+            "name": "  \x1b[1m%s\x1b[0m \x1b[90m%s\x1b[0m\n",
+            "summary": "  \x1b[38;5;31msummary:\x1b[0m %s\n",
+            "since": "  \x1b[38;5;31msince:\x1b[0m %s\n",
+            "group": "  \x1b[38;5;31mgroup:\x1b[0m %s\n",
+            "description": "  \x1b[38;5;31mdescription:\x1b[0m\n\n\x1b[90m%s\x1b[0m\n",
+        }
+    } else {
+        formats = map[string]string {
+            "name": "  %s %s\n",
+            "summary": "  summary: %s\n",
+            "since": "  since: %s\n",
+            "group": "  group: %s\n",
+            "description": "  description:\n\n%s\n",
+        }
+    }
+
+    fmt.Fprintf(os.Stdout, formats["name"],strings.ToUpper(c.Name), c.Arguments)
 
     if *summary {
-        fmt.Fprintf(os.Stdout, "  summary: %s\n", c.Summary)
+        fmt.Fprintf(os.Stdout, formats["summary"], c.Summary)
     }
 
     if *since {
-        fmt.Fprintf(os.Stdout, "  since: %s\n", c.Since)
+        fmt.Fprintf(os.Stdout, formats["since"], c.Since)
     }
 
     if *group {
-        fmt.Fprintf(os.Stdout, "  group: %s\n", c.Group)
+        fmt.Fprintf(os.Stdout, formats["group"], c.Group)
     }
 
     if *description {
-        fmt.Fprintf(os.Stdout, "  description: %s\n", c.Description)
+        fmt.Fprintf(os.Stdout, formats["description"], c.Description)
     }
 
     fmt.Fprintf(os.Stdout, "\n")
