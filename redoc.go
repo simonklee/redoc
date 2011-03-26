@@ -24,9 +24,9 @@ var (
     since       = flag.Bool("si", true, "display since")
     summary     = flag.Bool("s", true, "display summary")
 
-    // list all available groups
+    // list all available groups/commands
     listGroups  = flag.Bool("lg", false, "list all available groups")
-    listCommands  = flag.Bool("lc", false, "list all available comamnds")
+    listCommands  = flag.Bool("lc", false, "list all available commands")
 )
 
 func usage() {
