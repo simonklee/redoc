@@ -30,7 +30,7 @@ var (
 )
 
 func usage() {
-    fmt.Fprintf(os.Stderr, "usage: redoc [flags] [command..group]\n")
+    fmt.Fprintf(os.Stderr, "usage: redoc [flags] [command|group]\n")
     flag.PrintDefaults()
     os.Exit(2)
 }

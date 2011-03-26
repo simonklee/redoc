@@ -1,6 +1,9 @@
 # redoc
 
-Provides [Redis documentation](http://redis.io/commands) as a command line tool. 
+Provides [Redis documentation](http://redis.io/commands) from a simple command
+line interface. With `redoc` command you don't have to have a redis-server
+running in order access documentation through `redis-cli help`. Furthermore, the
+extended documentation as used on redis.io is also available for each command.
 
 ## Requires 
 
@@ -21,8 +24,8 @@ to a folder in your $PATH.
 * `redoc [group|command]` will either display a given command or all commands
   in a group.
 * `redoc -d` displays a long description for Redis commands.
-* `redoc -lc` will output all available commands in a comprehensive list.
-* `redoc -lg` will output all available groups in a comprehensive list.
+* `redoc -lc` output all available Redis commands in a comprehensive list.
+* `redoc -lg` output all available Redis groups in a comprehensive list.
 
 ## Update
 
