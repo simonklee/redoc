@@ -1,6 +1,6 @@
 # redoc
 
-Provides [Redis documentation](http://redis.io/documentation) as a command line tool. 
+Provides [Redis documentation](http://redis.io/commands) as a command line tool. 
 
 ## Requires 
 
