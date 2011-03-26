@@ -94,11 +94,11 @@ func newArg(a *Arg) string {
     return src
 }
 
-func createApi(data *map[string]Command) {
-    f, err := os.Open("api.go", os.O_WRONLY|os.O_CREAT|os.O_TRUNC, 0644)
+func createCommands(data *map[string]Command) {
+    f, err := os.Open("commands.go", os.O_WRONLY|os.O_CREAT|os.O_TRUNC, 0644)
 
     if err != nil {
-        fmt.Fprintf(os.Stderr, "error opening api.go (%s)\n", err.String())
+        fmt.Fprintf(os.Stderr, "error opening commands.go (%s)\n", err.String())
         os.Exit(1)
     }
 
@@ -148,7 +148,7 @@ func main() {
         os.Exit(1)
     }
 
-    createApi(&commands)
+    createCommands(&commands)
 
     os.Exit(0)
 }
