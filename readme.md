@@ -29,11 +29,18 @@ to a folder in your $PATH.
 
 ## Update
 
-1. `git submodule update --init`
-2. `6g update.go && 6l -o update update.6`
+First make sure the [redis-doc](https://github.com/antirez/redis-doc/) is present in
+the folder:
 
-Now you have a `$ ./update` command which will regenerate the `commands.go`-file.
+`git submodule update --init && git submodule foreach pull`
 
-3. `./update && make`
+Next we need to compile the update app. s/6/8/ if you are on 32-bit.
 
-After running make `./redoc` is potentially updated with new documentation.
+`6g update.go && 6l -o update update.6`
+
+Now you have a `update` app which will regenerate the commands.go-file. You can
+simply call it without args.
+
+`./update`
+
+Compile redoc with `make` and you are up to date.
