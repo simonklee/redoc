@@ -26,8 +26,8 @@ var (
 
     // general
     colors       = flag.Bool("c", true, "use colors")
-    listCommands = flag.Bool("lc", false, "list all available commands")
-    listGroups   = flag.Bool("lg", false, "list all available groups")
+    listCommands = flag.Bool("lc", false, "list available Redis commands")
+    listGroups   = flag.Bool("lg", false, "list available Redis groups")
 )
 
 func usage() {
