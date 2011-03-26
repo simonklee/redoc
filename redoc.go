@@ -25,9 +25,9 @@ var (
     summary     = flag.Bool("s", true, "display summary")
 
     // general
-    colors  = flag.Bool("c", true, "use colors")
-    listCommands  = flag.Bool("lc", false, "list all available commands")
-    listGroups  = flag.Bool("lg", false, "list all available groups")
+    colors       = flag.Bool("c", true, "use colors")
+    listCommands = flag.Bool("lc", false, "list all available commands")
+    listGroups   = flag.Bool("lg", false, "list all available groups")
 )
 
 func usage() {
@@ -40,24 +40,24 @@ func (c *Command) printCommand() {
     var formats map[string]string
 
     if *colors {
-        formats = map[string]string {
-            "name": "  \x1b[1m%s\x1b[0m \x1b[90m%s\x1b[0m\n",
-            "summary": "  \x1b[38;5;31msummary:\x1b[0m %s\n",
-            "since": "  \x1b[38;5;31msince:\x1b[0m %s\n",
-            "group": "  \x1b[38;5;31mgroup:\x1b[0m %s\n",
+        formats = map[string]string{
+            "name":        "  \x1b[1m%s\x1b[0m \x1b[90m%s\x1b[0m\n",
+            "summary":     "  \x1b[38;5;31msummary:\x1b[0m %s\n",
+            "since":       "  \x1b[38;5;31msince:\x1b[0m %s\n",
+            "group":       "  \x1b[38;5;31mgroup:\x1b[0m %s\n",
             "description": "  \x1b[38;5;31mdescription:\x1b[0m\n\n\x1b[90m%s\x1b[0m\n",
         }
     } else {
-        formats = map[string]string {
-            "name": "  %s %s\n",
-            "summary": "  summary: %s\n",
-            "since": "  since: %s\n",
-            "group": "  group: %s\n",
+        formats = map[string]string{
+            "name":        "  %s %s\n",
+            "summary":     "  summary: %s\n",
+            "since":       "  since: %s\n",
+            "group":       "  group: %s\n",
             "description": "  description:\n\n%s\n",
         }
     }
 
-    fmt.Fprintf(os.Stdout, formats["name"],strings.ToUpper(c.Name), c.Arguments)
+    fmt.Fprintf(os.Stdout, formats["name"], strings.ToUpper(c.Name), c.Arguments)
 
     if *summary {
         fmt.Fprintf(os.Stdout, formats["summary"], c.Summary)
@@ -82,14 +82,14 @@ func printName(name string) bool {
     if c, ok := Commands[name]; ok {
         c.printCommand()
         return ok
-    } 
+    }
     return false
 }
 
 func printCommands() {
     var commands []string
 
-    for k, _ := range Commands {
+    for k := range Commands {
         commands = append(commands, k)
     }
 
@@ -107,7 +107,7 @@ func printGroup(name string) bool {
 
     for k, v := range g {
         if k == name {
-            printGrouped(map[string][]string{k: v,})
+            printGrouped(map[string][]string{k: v})
         }
     }
 
@@ -115,7 +115,7 @@ func printGroup(name string) bool {
 }
 
 func printGroups() {
-    found := map[string] bool{}
+    found := map[string]bool{}
     var groups []string
 
     for _, v := range Commands {
@@ -161,7 +161,7 @@ func main() {
     flag.Usage = usage
     flag.Parse()
     args := flag.Args()
-    
+
     if *listGroups {
         printGroups()
         os.Exit(0)
@@ -178,12 +178,12 @@ func main() {
             if !printGroup(typ) {
                 os.Exit(1)
             }
-        }        
+        }
         os.Exit(0)
     }
 
     g := orderByGroup()
     printGrouped(g)
-    
+
     os.Exit(0)
 }
