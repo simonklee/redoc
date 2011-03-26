@@ -20,8 +20,8 @@ type Command struct {
 var (
     // what to display for each command
     description = flag.Bool("d", false, "display long description")
-    group       = flag.Bool("g", false, "display group")
-    since       = flag.Bool("si", true, "display since")
+    group       = flag.Bool("g", true, "display group")
+    since       = flag.Bool("si", false, "display since")
     summary     = flag.Bool("s", true, "display summary")
 
     // list all available groups/commands
