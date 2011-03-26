@@ -29,7 +29,7 @@ to a folder in your $PATH.
 1. `git submodule update --init`
 2. `6g update.go && 6l -o update update.6`
 
-Now you have a `$ ./update` command which will regenerate the `api.go`-file.
+Now you have a `$ ./update` command which will regenerate the `commands.go`-file.
 
 3. `./update && make`
 
