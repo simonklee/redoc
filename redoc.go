@@ -95,8 +95,16 @@ func printCommands() {
 
     sort.SortStrings(commands)
 
+    var format string
+
+    if *colors {
+        format = "%s\x1b[38;5;196m|\x1b[0m"
+    } else {
+        format = "%s "
+    }
+
     for _, name := range commands {
-        fmt.Fprintf(os.Stdout, "%s ", name)
+        fmt.Fprintf(os.Stdout, format, name)
     }
 
     fmt.Fprintf(os.Stdout, "\n")
@@ -127,8 +135,16 @@ func printGroups() {
 
     sort.SortStrings(groups)
 
+    var format string
+
+    if *colors {
+        format = "%s\x1b[38;5;196m|\x1b[0m"
+    } else {
+        format = "%s "
+    }
+
     for _, name := range groups {
-        fmt.Fprintf(os.Stdout, "%s ", name)
+        fmt.Fprintf(os.Stdout, format, name)
     }
 
     fmt.Fprintf(os.Stdout, "\n")
@@ -172,8 +188,8 @@ func main() {
         os.Exit(0)
     }
 
-    if len(args) == 1 {
-        typ := strings.ToLower(args[0])
+    if len(args) > 0 {
+        typ := strings.ToLower(strings.Join(args, " "))
         if !printName(typ) {
             if !printGroup(typ) {
                 os.Exit(1)
