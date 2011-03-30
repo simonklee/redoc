@@ -7,7 +7,7 @@ extended documentation as used on redis.io is also available for each command.
 
 ## Requires 
 
-* [Go](http://golang.org/doc/install.html) to build the `redoc` binary.
+* [Go](http://golang.org/doc/install.html) to build.
 
 ## Get it
 
@@ -18,14 +18,14 @@ extended documentation as used on redis.io is also available for each command.
 Now you have a `./redoc` command at your fingertips. This can simply be copied
 to a folder in your $PATH.
 
-## Use it
+## Usage
 
-* `redoc` without args will display all Redis commands, ordered by `group`.
-* `redoc [group|command]` will either display a given command or all commands
-  in a group.
-* `redoc -d` displays a long description for Redis commands.
-* `redoc -lc` output all available Redis commands in a comprehensive list.
-* `redoc -lg` output all available Redis groups in a comprehensive list.
+`$ redoc`
+    without args will display all Redis commands, ordered by `group`.
+    `[group|command]` display either a given command or all commands in a group.
+    `-d` displays a long description for Redis commands.
+    `-lc` output all available Redis commands in a comprehensive list.
+    `-lg` output all available Redis groups in a comprehensive list.
 
 ## Update
 

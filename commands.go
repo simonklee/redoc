@@ -1480,9 +1480,10 @@ O(1)
 
 
 Increments the number stored at 'key' by one.
-If the key does not exist or contains a value of the wrong type, it is set to
-'0' before performing the operation. This operation is limited to 64 bit signed
-integers.
+If the key does not exist, it is set to '0' before performing the operation. An
+error is returned if the key contains a value of the wrong type or contains a
+string that is not representable as integer. This operation is limited to 64
+bit signed integers.
 
 **Note**: this is a string operation because Redis does not have a dedicated
 integer type. The the string stored at the key is interpreted as a base-10 64
@@ -1715,9 +1716,10 @@ O(1)
 
 
 Decrements the number stored at 'key' by 'decrement'.
-If the key does not exist or contains a value of the wrong type, it is set to
-'0' before performing the operation. This operation is limited to 64 bit signed
-integers.
+If the key does not exist, it is set to '0' before performing the operation. An
+error is returned if the key contains a value of the wrong type or contains a
+string that is not representable as integer. This operation is limited to 64
+bit signed integers.
 
 See 'INCR' for extra information on increment/decrement operations.
 
@@ -1798,9 +1800,10 @@ O(1)
 
 
 Decrements the number stored at 'key' by one.
-If the key does not exist or contains a value of the wrong type, it is set to
-'0' before performing the operation. This operation is limited to 64 bit signed
-integers.
+If the key does not exist, it is set to '0' before performing the operation. An
+error is returned if the key contains a value of the wrong type or contains a
+string that is not representable as integer. This operation is limited to 64
+bit signed integers.
 
 See 'INCR' for extra information on increment/decrement operations.
 
@@ -2028,7 +2031,7 @@ O(1)
 
 
 Set 'key' to hold the string 'value' and set 'key' to timeout after a given
-number of seconds.  This command is equivalent to exeucting the following
+number of seconds.  This command is equivalent to executing the following
 commands:
 
     SET mykey value
@@ -2733,9 +2736,10 @@ O(1)
 
 
 Increments the number stored at 'key' by 'increment'.
-If the key does not exist or contains a value of the wrong type, it is set to
-'0' before performing the operation. This operation is limited to 64 bit signed
-integers.
+If the key does not exist, it is set to '0' before performing the operation. An
+error is returned if the key contains a value of the wrong type or contains a
+string that is not representable as integer. This operation is limited to 64
+bit signed integers.
 
 See 'INCR' for extra information on increment/decrement operations.
 
