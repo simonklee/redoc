@@ -20,12 +20,15 @@ to a folder in your $PATH.
 
 ## Usage
 
-`$ redoc`
-    without args will display all Redis commands, ordered by `group`.
-    `[group|command]` display either a given command or all commands in a group.
-    `-d` displays a long description for Redis commands.
-    `-lc` output all available Redis commands in a comprehensive list.
-    `-lg` output all available Redis groups in a comprehensive list.
+`redoc`:
+
+* Without args will display all Redis commands, ordered by `group`.
+* `[command|@group]` display either a given command or all commands in a group.
+  `redoc set` would the command `set`.
+* `-d` long description for Redis commands.
+* `-s` since which version of Redis command is supported.
+* `-lc` list available Redis commands.
+* `-lg` list available Redis groups.
 
 ## Update
 
