@@ -5,10 +5,6 @@ line interface. With `redoc` command you don't have to have a redis-server
 running in order access documentation through `redis-cli help`. Furthermore, the
 extended documentation as used on redis.io is also available for each command.
 
-## Requires 
-
-* [Go](http://golang.org/doc/install.html) to build.
-
 ## Get it
 
 1. `git clone git://github.com/simonz05/redoc.git`
