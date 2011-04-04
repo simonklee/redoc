@@ -22,9 +22,9 @@ to a folder in your $PATH.
 
 `redoc`:
 
-* Without args redoc will display all Redis commands, ordered by `group`.
+* Without args redoc redoc will display all Redis commands.
 * `[command|@group]` display either a given command or all commands in a group.
-  `redoc set` would the command `set`.
+  `$ redoc set` would display the command "SET".
 * `-d` long description for Redis commands.
 * `-s` since which version of Redis command is supported.
 * `-lc` list available Redis commands.
