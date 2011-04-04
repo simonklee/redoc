@@ -20,9 +20,7 @@ type Command struct {
 var (
     // what to display for each command
     description = flag.Bool("d", false, "display long description")
-    group       = flag.Bool("g", true, "display group")
-    since       = flag.Bool("si", false, "display since")
-    summary     = flag.Bool("s", true, "display summary")
+    since       = flag.Bool("s", false, "display since")
 
     // general
     colors       = flag.Bool("c", true, "use colors")
@@ -31,7 +29,7 @@ var (
 )
 
 func usage() {
-    fmt.Fprintf(os.Stderr, "usage: redoc [flags] [command|group]\n")
+    fmt.Fprintf(os.Stderr, "usage: redoc [flags] [command|@group]\n")
     flag.PrintDefaults()
     os.Exit(2)
 }
@@ -58,18 +56,13 @@ func (c *Command) printCommand() {
     }
 
     fmt.Fprintf(os.Stdout, formats["name"], strings.ToUpper(c.Name), c.Arguments)
-
-    if *summary {
-        fmt.Fprintf(os.Stdout, formats["summary"], c.Summary)
-    }
+    fmt.Fprintf(os.Stdout, formats["summary"], c.Summary)
 
     if *since {
         fmt.Fprintf(os.Stdout, formats["since"], c.Since)
     }
 
-    if *group {
-        fmt.Fprintf(os.Stdout, formats["group"], c.Group)
-    }
+    fmt.Fprintf(os.Stdout, formats["group"], c.Group)
 
     if *description {
         fmt.Fprintf(os.Stdout, formats["description"], c.Description)
