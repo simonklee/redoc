@@ -184,7 +184,7 @@ func main() {
     if len(args) > 0 {
         typ := strings.ToLower(strings.Join(args, " "))
 
-        if strings.HasPrefix(typ, "@") && printName(typ[1:]) {
+        if strings.HasPrefix(typ, "@") && printGroup(typ[1:]) {
             os.Exit(0)
         }
 
