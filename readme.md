@@ -9,10 +9,9 @@ extended documentation as used on redis.io is also available for each command.
 
 1. `git clone git://github.com/simonz05/redoc.git`
 2. `cd redoc/`
-3. `make`
+3. `make install`
 
-Now you have a `./redoc` command at your fingertips. This can simply be copied
-to a folder in your $PATH.
+Now you have a `redoc` command at your fingertips. 
 
 ## Usage
 
