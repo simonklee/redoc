@@ -7,9 +7,7 @@ extended documentation as used on redis.io is also available for each command.
 
 ## Get it
 
-1. `git clone git://github.com/simonz05/redoc.git`
-2. `cd redoc/`
-3. `make install`
+    `goinstall -v -u github.com/simonz05/redoc`
 
 Now you have a `redoc` command at your fingertips. 
 
