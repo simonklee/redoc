@@ -95,7 +95,7 @@ func newArg(a *Arg) string {
 }
 
 func createCommands(data *map[string]Command) {
-    f, err := os.Open("commands.go", os.O_WRONLY|os.O_CREAT|os.O_TRUNC, 0644)
+    f, err := os.OpenFile("commands.go", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 
     if err != nil {
         fmt.Fprintf(os.Stderr, "error opening commands.go (%s)\n", err.String())
