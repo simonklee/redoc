@@ -164,10 +164,11 @@ Removes 'field' from the hash stored at 'key'.
 O(1)
 
 
-Returns a random element from the set value stored at 'key'.
+Return a random element from the set value stored at 'key'.
 
-This operation is similar to 'SPOP', that also removes the randomly
-selected element.
+This operation is similar to 'SPOP', however while 'SPOP' also removes the
+randomly selected element from the set, 'SRANDMEMBER' will just return a random
+element without altering the original set in any way.
 
 @return
 
@@ -1008,11 +1009,48 @@ Remove the existing timeout on 'key'.
     TTL mykey`},
     "config get": {"config get", "Get the value of a configuration parameter", "parameter", "server", "2.0", `@complexity
 
+Not applicable.
+
 @description
 
-@examples
+The CONFIG GET ommand is used to read the configuration parameters of a running
+Redis server. Not all the configuration parameters are supported.
+The symmetric command used to alter the configuration at run time is
+'CONFIG SET'.
 
-@return`},
+'CONFIG GET' takes a single argument, that is glob style pattern. All the
+configuration parameters matching this parameter are reported as a
+list of key-value pairs. Example:
+
+    redis> config get *max-*-entries*
+    1) "hash-max-zipmap-entries"
+    2) "512"
+    3) "list-max-ziplist-entries"
+    4) "512"
+    5) "set-max-intset-entries"
+    6) "512"
+
+You can obtain a list of all the supported configuration parameters typing
+'CONFIG GET *' in an open redis-cli prompt.
+
+All the supported parameters have the same meaning of the equivalent
+configuration parameter used in the [redis.conf](http://github.com/antirez/redis/raw/2.2/redis.conf) file, with the following important differences:
+
+* Where bytes or other quantities are specified, it is not possible to use the redis.conf abbreviated form (10k 2gb ... and so forth), everything should be specified as a well formed 64 bit integer, in the base unit of the configuration directive.
+* The save parameter is a single string of space separated integers. Every pair of integers represent a seconds/modifications threshold.
+
+For instance what in redis.conf looks like:
+
+    save 900 1
+    save 300 10
+
+that means, save after 900 seconds if there is at least 1 change to the
+dataset, and after 300 seconds if there are at least 10 changes to the
+datasets, will be reported by 'CONFIG GET' as "900 1 300 10".
+
+@return
+
+The return type of the command is a @bulk-reply.`},
     "sinter": {"sinter", "Intersect multiple sets", "key [key ...]", "set", "0.07", `@complexity
 
 O(N\*M) worst case where N is the cardinality of the smallest set and M is the
@@ -2251,6 +2289,64 @@ Returns 'message'.
 
     @cli
     ECHO "Hello World!"`},
+    "object": {"object", "Inspect the internals of Redis objects", "subcommand [arguments [arguments ...]]", "generic", "2.2.3", `@complexity
+
+O(1) for all the currently implemented subcommands.
+
+The 'OBJECT' command allows to inspect the internals of Redis Objects associated
+with keys. It is useful for debugging or to understand if your keys are using
+the specially encoded data types to save space. Your application may also use
+the information reported by the 'OBJECT' command to implement application level
+key eviction policies when using Redis as a Cache.
+
+The 'OBJECT' command supports multiple sub commands:
+
+* 'OBJECT REFCOUNT <key>' returns the number of references of the value associated with the specified key. This command is mainly useful for debugging.
+* 'OBJECT ENCODING <key>' returns the kind of internal representation used in order to store the value associated with a key.
+* 'OBJECT IDLETIME <key>' returns the number of seconds since the object stored at the specified key is idle (not requested by read or write operations). While the value is returned in seconds the actual resolution of this timer is 10 seconds, but may vary in future implementations.
+
+Objects can be encoded in different ways:
+
+* Strings can be encoded as 'raw' (normal string encoding) or 'int' (strings representing integers in a 64 bit signed interval are encoded in this way in order to save space).
+* Lists can be encoded as 'ziplist' or 'linkedlist'. The 'ziplist' is the special representation that is used to save space for small lists.
+* Sets can be encoded as 'intset' or 'hashtable'. The 'intset' is a special encoding used for small sets composed solely of integers.
+* Hashes can be encoded as 'zipmap' or 'hashtable'. The 'zipmap' is a special encoding used for small hashes.
+* Sorted Sets can be encoded as 'ziplist' or 'skiplist' format. As for the List type small sorted sets can be specially encoded using 'ziplist', while the 'skiplist' encoding is the one that works with sorted sets of any size.
+
+All the specially encoded types are automatically converted to the general type once you perform an operation that makes it no possible for Redis to retain the space saving encoding.
+
+@return
+
+Different return values are used for different subcommands.
+
+* Subcommands 'refcount' and 'idletime' returns integers.
+* Subcommand 'encoding' returns a bulk reply.
+
+If the object you try to inspect is missing, a null bulk reply is returned.
+
+@examples
+
+    redis> lpush mylist "Hello World"
+    (integer) 4
+    redis> object refcount mylist
+    (integer) 1
+    redis> object encoding mylist
+    "ziplist"
+    redis> object idletime mylist
+    (integer) 10
+
+In the following example you can see how the encoding changes once Redis is no longer able to use the space saving encoding.
+
+    redis> set foo 1000
+    OK
+    redis> object encoding foo
+    "int"
+    redis> append foo bar
+    (integer) 7
+    redis> get foo
+    "1000bar"
+    redis> object encoding foo
+    "raw"`},
     "debug object": {"debug object", "Get debugging information about a key", "key", "server", "0.101", `@complexity
 
 @description
@@ -2771,11 +2867,54 @@ not exist.
     HVALS myhash`},
     "config set": {"config set", "Set a configuration parameter to the given value", "parameter value", "server", "2.0", `@complexity
 
+Not applicable.
+
 @description
 
-@examples
+The 'CONFIG SET' command is used in order to reconfigure the server at runtime
+without the need to restart Redis. You can change both trivial parameters or
+switch from one to another persistence option using this command.
 
-@return`},
+The list of configuration parameters supported by 'CONFIG SET' can be
+obtained issuing a 'CONFIG GET *' command, that is the symmetrical command
+used to obtain informations about the configuration of a running
+Redis instance.
+
+All the configuration parameters set using 'CONFIG SET' are immediately loaded
+by Redis that will start acting as specified starting from the next command
+executed.
+
+All the supported parameters have the same meaning of the equivalent
+configuration parameter used in the [redis.conf](http://github.com/antirez/redis/raw/2.2/redis.conf) file, with the following important differences:
+
+* Where bytes or other quantities are specified, it is not possible to use the redis.conf abbreviated form (10k 2gb ... and so forth), everything should be specified as a well formed 64 bit integer, in the base unit of the configuration directive.
+* The save parameter is a single string of space separated integers. Every pair of integers represent a seconds/modifications threshold.
+
+For instance what in redis.conf looks like:
+
+    save 900 1
+    save 300 10
+
+that means, save after 900 seconds if there is at least 1 change to the
+dataset, and after 300 seconds if there are at least 10 changes to the
+datasets, should be set using 'CONFIG SET' as "900 1 300 10".
+
+It is possible to switch persistence form .rdb snapshotting to append only file
+(and the other way around) using the 'CONFIG SET' command. For more information
+about how to do that please check [persistence page](/topics/persistence).
+
+In general what you should know is that setting the *appendonly* parameter to
+*yes* will start a background process to save the initial append only file
+(obtained from the in memory data set), and will append all the subsequent
+commands on the append only file, thus obtaining exactly the same effect of
+a Redis server that started with AOF turned on since the start.
+
+You can have both the AOF enabled with .rdb snapshotting if you want, the
+two options are not mutually exclusive.
+
+@return
+
+@status-reply: 'OK' when the configuration was set properly. Otherwise an error is returned.`},
     "shutdown": {"shutdown", "Synchronously save the dataset to disk and then shut down the server", "-", "server", "0.07", `Stop all the clients, save the DB, then quit the server. This commands
 makes sure that the DB is switched off without the lost of any data.
 This is not guaranteed if the client uses simply 'SAVE' and then
