@@ -6,3 +6,8 @@ GOFILES=\
 	commands.go\
 
 include $(GOROOT)/src/Make.cmd
+
+update: update.go 
+	$(GC) $<
+	$(LD) -o $@ $@.$O
+	./update

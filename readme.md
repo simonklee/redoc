@@ -30,13 +30,8 @@ the folder:
 
 `git submodule update --init && git submodule foreach pull`
 
-Next we need to compile the update app. s/6/8/ if you are on 32-bit.
+Next we can generate a new commands.go file by running
 
-`6g update.go && 6l -o update update.6`
+`make update`
 
-Now you have a `update` app which will regenerate the commands.go-file. You can
-simply call it without args.
-
-`./update`
-
-Compile redoc with `make` and you are up to date.
+Compile redoc with `make install` and you are up to date.
