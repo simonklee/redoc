@@ -1,15 +1,15 @@
 # redoc
 
-Provides [Redis documentation](http://redis.io/commands) from a simple command
-line interface. With `redoc` command you don't have to have a redis-server
-running in order access documentation through `redis-cli help`. Furthermore, the
-extended documentation as used on redis.io is also available for each command.
+redoc - an interface to the [Redis documentation](http://redis.io/commands).
+You can access extended documentation for each Redis command or get a list of
+commands and groups available. With redoc you don't need to run redis-cli or
+access redis.io to lookup documentation.
 
 ## Get it
 
-    goinstall -v -u github.com/simonz05/redoc
+    $ git clone git://github.com/simonz05/redoc.git && cd redoc && make install
 
-Now you have a `redoc` command at your fingertips. 
+This will install `redoc` in your $GOROOT directory.
 
 ## Usage
 
