@@ -20,7 +20,7 @@ Without args redoc will display all Redis commands.
 
 Arguments:
 
-* `command` display either a given command. `redoc set` would display the command SET.
+* `command` display a given command. `redoc set` would display the command SET.
 * `[@]group` display all commands in a group. The optional @ is so to resolve name
   conflicts. `redoc @set` would display all set commands, and not the SET command.
 * `-lc` list available Redis commands.
