@@ -5,30 +5,39 @@ You can access extended documentation for each Redis command or get a list of
 commands and groups available. With redoc you don't need to run redis-cli or
 access redis.io to lookup documentation.
 
-## Get it
+1. [Readme](http://susr.org/redoc)
+2. [Source code](http://github.com/simonz05/redoc)
+
+## Get redoc 
+
+This command will checkout and install redoc.
 
     $ git clone git://github.com/simonz05/redoc.git && cd redoc && make install
 
-This will install `redoc` in your $GOROOT directory.
+## Use redoc
 
-## Usage
+Without args redoc will display all Redis commands.
 
-`redoc`:
+Arguments:
 
-* Without args redoc redoc will display all Redis commands.
-* `[command|@group]` display either a given command or all commands in a group.
-  `$ redoc set` would display the command SET.
-* `-d` long description for Redis commands.
-* `-s` since which version of Redis command is supported.
+* `command` display either a given command. `redoc set` would display the command SET.
+* `[@]group` display all commands in a group. The optional @ is so to resolve name
+  conflicts. `redoc @set` would display all set commands, and not the SET command.
 * `-lc` list available Redis commands.
 * `-lg` list available Redis groups.
 
-## Update
+Options will modify how the output is displayed: 
+
+* `-d` long description for each Redis command.
+* `-s` version of Redis since the commands was supported.
+* `-c=false` don't display output in colors.
+
+## Update redoc
 
 First make sure the [redis-doc](https://github.com/antirez/redis-doc/) is present in
 the folder:
 
-`git submodule update --init && git submodule foreach pull`
+`git submodule update --init && git submodule foreach git pull`
 
 Next we can generate a new commands.go file by running
 
