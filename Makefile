@@ -11,3 +11,6 @@ update: update.go
 	$(GC) $<
 	$(LD) -o $@ $@.$O
 	./update
+
+format:
+	gofmt -s=true -tabs=false -tabwidth=4 -w .
