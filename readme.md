@@ -5,9 +5,6 @@ You can access extended documentation for each Redis command or get a list of
 commands and groups available. With redoc you don't need to run redis-cli or
 access redis.io to lookup documentation.
 
-1. [Readme](http://susr.org/redoc)
-2. [Source code](http://github.com/simonz05/redoc)
-
 ## Get redoc 
 
 This command will checkout and install redoc.
