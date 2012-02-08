@@ -1,7 +1,6 @@
 *.6
 *.out
 redoc
-update
 _test*
 _obj
 *.8
