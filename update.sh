@@ -8,3 +8,4 @@ go build .
 mv commands.go ../
 cd ..
 ./fmt.sh .
+go install .

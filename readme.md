@@ -9,35 +9,66 @@ access redis.io to lookup documentation.
 
 This command will checkout and install redoc.
 
-    $ git clone git://github.com/simonz05/redoc.git && cd redoc && make install
+    $ go get github.com/simonz05/redoc
 
 ## Use redoc
 
 Without args redoc will display all Redis commands.
 
-Arguments:
+Arguments.
 
-* `command` display a given command. `redoc set` would display the command SET.
-* `[@]group` display all commands in a group. The optional @ is so to resolve name
-  conflicts. `redoc @set` would display all set commands, and not the SET command.
-* `-lc` list available Redis commands.
-* `-lg` list available Redis groups.
+    command     display a given command
+    [@]group    display all commands in a group. 
+                @ is so to resolve naming conflicts.
+    -lc         list available Redis commands
+    -lg         list available Redis groups
 
-Options will modify how the output is displayed: 
+Options.
 
-* `-d` long description for each Redis command.
-* `-s` version of Redis since the commands was supported.
-* `-c=false` don't display output in colors.
+    -d          long description for each Redis command
+    -s          version of Redis since the commands was 
+                supported
+    -c=false    don't display output in colors
+
+
+Examples.
+
+    $ redoc set
+
+        SET key value
+        summary: Set the string value of a key
+        group: string
+
+    $ redoc -d set 
+
+        SET key value
+        summary: Set the string value of a key
+        group: string
+
+        @complexity
+
+        O(1)
+
+        Set 'key' to hold the string 'value'. If 'key' already holds
+        a value, it is
+        overwritten, regardless of its type.
+
+        @return
+
+        @status-reply: always 'OK' since 'SET' can't fail.
+
+        @examples
+
+        @cli
+        SET mykey "Hello"
+        GET mykey
 
 ## Update redoc
 
-First make sure the [redis-doc](https://github.com/antirez/redis-doc/) is present in
-the folder:
+We generate a new commands.go file by running using the
+update `update/update.go`. Simply run.
 
-`git submodule update --init && git submodule foreach git pull`
+    $ ./update.sh
 
-Next we can generate a new commands.go file by running
-
-`make update`
-
-Compile redoc with `make install` and you are up to date.
+This will build and install an updated version of redoc
+using the latest version of redis-doc.
